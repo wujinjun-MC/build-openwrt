@@ -28,6 +28,9 @@ echo "DISTRIB_SOURCECODE='lede'" >>package/base-files/files/etc/openwrt_release
 
 # ------------------------------- Other started -------------------------------
 #
+#####Add a feed source
+echo 'src-git amlogic https://github.com/ophub/luci-app-amlogic' >>feeds.conf.default
+
 # Add luci-app-amlogic
 svn co https://github.com/ophub/luci-app-amlogic/trunk/luci-app-amlogic package/luci-app-amlogic
 
