@@ -267,6 +267,11 @@ jobs:
       - name: Install feeds
         run: cd openwrt/ && ./scripts/feeds install -a
 
+      - uses: actions/checkout@v4
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        timeout-minutes: 360
+
       - name: Load custom configuration
         run: |
           [[ -d "files" ]] && mv -f files openwrt/files
