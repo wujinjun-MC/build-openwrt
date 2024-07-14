@@ -9,8 +9,8 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
-      make_config_via_tmate:
-        description: "Make custom config using make menuconfig via tmate"
+      make_config_via_web_shell:
+        description: "Make custom config using make menuconfig via web shell"
         required: false
         default: false
         type: boolean
@@ -189,6 +189,11 @@ on:
           - angel
           - yourname
           - wujinjun
+      make_config_via_tmate:
+        description: "Make custom config using make menuconfig via tmate(Deprecated, may terminate after 45-60 minutes)"
+        required: false
+        default: false
+        type: boolean
 
 env:
   FEEDS_CONF: config/${{ inputs.source_branch }}/feeds.conf.default
@@ -278,8 +283,19 @@ jobs:
 
 #      - uses: actions/checkout@v4
       - name: Customize config via tmate
-        uses: mxschmitt/action-tmate@main
         if: ${{ inputs.make_config_via_tmate }}
+        uses: mxschmitt/action-tmate@master
+        run: |
+          touch /tmp/keepalive
+        timeout-minutes: 360
+
+      - name: Customize config via web shell
+        if: ${{ inputs.make_config_via_web_shell }}
+        uses: fawazahmed0/action-debug@main
+        with:
+            credentials: "admin:admin"
+        run: |
+          touch continue
         timeout-minutes: 360
 
       - name: Load custom configuration
