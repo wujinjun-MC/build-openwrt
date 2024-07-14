@@ -278,7 +278,7 @@ jobs:
 
 #      - uses: actions/checkout@v4
       - name: Customize config via tmate
-        uses: mxschmitt/action-tmate@v3
+        uses: mxschmitt/action-tmate@main
         if: ${{ inputs.make_config_via_tmate }}
         timeout-minutes: 360
 
