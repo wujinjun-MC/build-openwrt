@@ -9,11 +9,6 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
-      make_config_via_web_shell:
-        description: "Make menuconfig via web shell"
-        required: false
-        default: false
-        type: boolean
       make_config_via_upterm:
         description: "Make menuconfig via upterm"
         required: false
@@ -290,13 +285,6 @@ jobs:
       - name: Customize config via tmate
         if: ${{ inputs.make_config_via_tmate }}
         uses: mxschmitt/action-tmate@master
-        timeout-minutes: 360
-
-      - name: Customize config via web shell
-        if: ${{ inputs.make_config_via_web_shell }}
-        uses: fawazahmed0/action-debug@main
-        with:
-            credentials: "admin:admin"
         timeout-minutes: 360
 
       - name: Customize config via upterm
