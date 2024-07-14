@@ -9,6 +9,11 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
+      make_config_via_tmate:
+        description: "Make custom config using make menuconfig via tmate"
+        required: false
+        default: false
+        type: boolean
       source_branch:
         description: "Select the source branch"
         required: false
@@ -169,7 +174,7 @@ on:
       openwrt_storage:
         description: "Select image storage type."
         required: false
-        default: "save"
+        default: "my_dev"
         type: choice
         options:
           - save
@@ -271,9 +276,10 @@ jobs:
       - name: Install feeds
         run: cd openwrt/ && ./scripts/feeds install -a
 
-      - uses: actions/checkout@v4
-      - name: Setup tmate session
+#      - uses: actions/checkout@v4
+      - name: Customize config via tmate
         uses: mxschmitt/action-tmate@v3
+    	if: ${{ inputs.make_config_via_tmate }}
         timeout-minutes: 360
 
       - name: Load custom configuration
