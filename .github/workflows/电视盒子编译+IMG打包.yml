@@ -282,6 +282,14 @@ jobs:
       - name: Install feeds
         run: cd openwrt/ && ./scripts/feeds install -a
 
+      - name: Load custom configuration
+        run: |
+          [[ -d "files" ]] && mv -f files openwrt/files
+          [[ -e "${CONFIG_FILE}" ]] && cp -f ${CONFIG_FILE} openwrt/.config
+          chmod +x ${DIY_P2_SH}
+          cd openwrt/
+          ${GITHUB_WORKSPACE}/${DIY_P2_SH}
+
 #      - uses: actions/checkout@v4
       - name: Customize config via tmate
         if: ${{ inputs.make_config_via_tmate }}
@@ -293,14 +301,6 @@ jobs:
         if: ${{ inputs.make_config_via_upterm }}
         uses: lhotari/action-upterm@main
         timeout-minutes: 360
-
-      - name: Load custom configuration
-        run: |
-          [[ -d "files" ]] && mv -f files openwrt/files
-          [[ -e "${CONFIG_FILE}" ]] && cp -f ${CONFIG_FILE} openwrt/.config
-          chmod +x ${DIY_P2_SH}
-          cd openwrt/
-          ${GITHUB_WORKSPACE}/${DIY_P2_SH}
 
       - name: Download package
         id: package
