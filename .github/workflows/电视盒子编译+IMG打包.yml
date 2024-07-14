@@ -285,8 +285,6 @@ jobs:
       - name: Customize config via tmate
         if: ${{ inputs.make_config_via_tmate }}
         uses: mxschmitt/action-tmate@master
-        run: |
-          touch /tmp/keepalive
         timeout-minutes: 360
 
       - name: Customize config via web shell
