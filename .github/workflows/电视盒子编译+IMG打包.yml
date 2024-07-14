@@ -12,7 +12,7 @@ on:
       source_branch:
         description: "Select the source branch"
         required: false
-        default: "openwrt-main"
+        default: "immortalwrt-master"
         type: choice
         options:
           - openwrt-main
@@ -22,7 +22,7 @@ on:
       openwrt_board:
         description: "Select device board"
         required: false
-        default: "all"
+        default: "s905d"
         type: choice
         options:
           - all
@@ -133,15 +133,17 @@ on:
       openwrt_kernel:
         description: "Select kernel version"
         required: false
-        default: "5.15.1_6.1.1"
+        default: "5.15.1_6.1.1_6.6.1"
         type: choice
         options:
-          - 5.4.1_5.10.1
-          - 5.15.1_6.1.1
+          - 5.4.1_5.10.1_5.15.1_6.6.1.1_6.6.1
+          - 5.15.1_6.1.1_6.6.1
+          - 6.1.1_6.6.1
           - 5.4.1
           - 5.10.1
           - 5.15.1
           - 6.1.1
+          - 6.6.1
       auto_kernel:
         description: "Auto use the latest kernel"
         required: false
@@ -172,14 +174,16 @@ on:
         options:
           - save
           - temp
+          - my_dev
       builder_name:
         description: "Set OpenWrt builder signature."
         required: false
-        default: "angel"
+        default: "wujinjun"
         type: choice
         options:
           - angel
           - yourname
+          - wujinjun
 
 env:
   FEEDS_CONF: config/${{ inputs.source_branch }}/feeds.conf.default
