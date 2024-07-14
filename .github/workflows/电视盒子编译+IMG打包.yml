@@ -292,8 +292,6 @@ jobs:
         uses: fawazahmed0/action-debug@main
         with:
             credentials: "admin:admin"
-        run: |
-          touch continue
         timeout-minutes: 360
 
       - name: Load custom configuration
