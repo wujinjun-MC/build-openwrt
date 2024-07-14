@@ -10,7 +10,12 @@ on:
   workflow_dispatch:
     inputs:
       make_config_via_web_shell:
-        description: "Make custom config using make menuconfig via web shell"
+        description: "Make menuconfig via web shell"
+        required: false
+        default: false
+        type: boolean
+      make_config_via_upterm:
+        description: "Make menuconfig via upterm"
         required: false
         default: false
         type: boolean
@@ -190,7 +195,7 @@ on:
           - yourname
           - wujinjun
       make_config_via_tmate:
-        description: "Make custom config using make menuconfig via tmate(Deprecated, may terminate after 45-60 minutes)"
+        description: "Make menuconfig via tmate(Deprecated, may terminate after 45-60 minutes)"
         required: false
         default: false
         type: boolean
@@ -292,6 +297,11 @@ jobs:
         uses: fawazahmed0/action-debug@main
         with:
             credentials: "admin:admin"
+        timeout-minutes: 360
+
+      - name: Customize config via upterm
+        if: ${{ inputs.make_config_via_upterm }}
+        uses: lhotari/action-upterm@main
         timeout-minutes: 360
 
       - name: Load custom configuration
