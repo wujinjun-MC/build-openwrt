@@ -276,9 +276,10 @@ jobs:
       - name: Install feeds
         run: cd openwrt/ && ./scripts/feeds install -a
 
+#      - uses: actions/checkout@v4
       - name: Customize config via tmate
         uses: mxschmitt/action-tmate@v3
-    	  if: ${{ inputs.make_config_via_tmate }}
+        if: ${{ inputs.make_config_via_tmate }}
         timeout-minutes: 360
 
       - name: Load custom configuration
