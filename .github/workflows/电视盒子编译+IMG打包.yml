@@ -222,16 +222,6 @@ jobs:
           echo "--------------------------硬盘信息--------------------------"
           echo "硬盘数量: $(ls /dev/sd* | grep -v [1-9] | wc -l)" && df -hT
 
-#      - uses: actions/checkout@v4
-      - name: Start remote debugging
-#        if: ${{ inputs.make_config_via_tmate }}
-#        uses: csexton/debugger-action@master
-        uses: mxschmitt/action-tmate@master
-        with:
-          detached: true
-          connect-timeout-seconds: 600000
-        timeout-minutes: 360
-
       - name: Environment initialization
         id: init
         env:
@@ -329,13 +319,18 @@ jobs:
           ${GITHUB_WORKSPACE}/${DIY_P2_SH}
 
 #      - uses: actions/checkout@v4
-      - name: Customize config via tmate
+      - name: Customize config via Ngrok(replaced tmate)
         if: ${{ inputs.make_config_via_tmate }}
-        uses: csexton/debugger-action@master
-        with:
-          connect-timeout-seconds: 600000
-#        uses: mxschmitt/action-tmate@master
-        timeout-minutes: 360
+        uses: luchihoratiu/debug-via-ssh@main
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+        SSH_PASS: ${{ secrets.SSH_PASS }}
+        # NGROK_REGION: ap
+        # NGROK_TIMEOUT: 21500
+#         uses: csexton/debugger-action@master
+#         with:
+#           connect-timeout-seconds: 600000
+# #        uses: mxschmitt/action-tmate@master
+#         timeout-minutes: 360
 
       - name: Download package
         id: package
