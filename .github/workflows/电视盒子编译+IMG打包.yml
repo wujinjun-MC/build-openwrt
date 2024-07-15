@@ -216,6 +216,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PUBLIC_KEY }}" >> ~/.ssh/authorized_keys
           echo "Starting tunnel..."
+          sshd
           timeout -s 2 5h ./localtonet authtoken "${{ secrets.REVERSE_PROXY_TOKEN }}"
 
 
