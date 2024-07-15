@@ -9,11 +9,6 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
-      make_config_via_upterm:
-        description: "Make menuconfig via upterm"
-        required: false
-        default: false
-        type: boolean
       source_branch:
         description: "Select the source branch"
         required: false
@@ -209,6 +204,15 @@ jobs:
 
     timeout-minutes: 360
     steps:
+      - name: Free disk space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 1024
+          temp-reserve-mb: 1024
+          swap-size-mb: 4096
+          remove-dotnet: true
+          remove-android: true
+
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -310,11 +314,6 @@ jobs:
         if: ${{ inputs.make_config_via_tmate }}
         uses: csexton/debugger-action@master
 #        uses: mxschmitt/action-tmate@master
-        timeout-minutes: 360
-
-      - name: Customize config via upterm
-        if: ${{ inputs.make_config_via_upterm }}
-        uses: lhotari/action-upterm@main
         timeout-minutes: 360
 
       - name: Download package
