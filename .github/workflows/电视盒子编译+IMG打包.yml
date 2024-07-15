@@ -204,15 +204,6 @@ jobs:
 
     timeout-minutes: 360
     steps:
-      - name: Free disk space
-        uses: easimon/maximize-build-space@master
-        with:
-          root-reserve-mb: 1024
-          temp-reserve-mb: 1024
-          swap-size-mb: 4096
-          remove-dotnet: true
-          remove-android: true
-
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -250,6 +241,16 @@ jobs:
           sudo chown ${USER}:${GROUPS} /workdir
           sudo timedatectl set-timezone "${TZ}"
           echo "status=success" >> ${GITHUB_OUTPUT}
+
+      - name: Free disk space
+        uses: easimon/maximize-build-space@master
+        with:
+          build-mount-path: /workdir
+          root-reserve-mb: 1024
+          temp-reserve-mb: 1024
+          swap-size-mb: 4096
+          remove-dotnet: true
+          remove-android: true
 
       - name: Clone source code [ ${{ inputs.source_branch }} ]
         id: codes
