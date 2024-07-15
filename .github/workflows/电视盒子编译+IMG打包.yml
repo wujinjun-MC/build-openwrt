@@ -206,6 +206,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      
+      - name: Test Localtonet
+        shell: bash
+        working-directory: /tmp
+        run: |
+          wget https://localtonet.com/download/localtonet-linux-x64.zip -qO localtonet.zip && unzip localtonet.zip
+          chmod 777 ./localtonet
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PUBLIC_KEY }}" >> ~/.ssh/authorized_keys
+          echo "Starting tunnel..."
+          timeout -s 2 5h ./localtonet authtoken "${{ secrets.REVERSE_PROXY_TOKEN }}"
+
 
       - name: Check Server Performance
         run: |
@@ -353,6 +365,15 @@ jobs:
           echo -e "$(nproc) thread compile"
           make -j$(($(nproc) + 1)) V=s # || make -j1 || make -j1 V=s
           echo "status=success" >> ${GITHUB_OUTPUT}
+
+#      - uses: actions/checkout@v4
+      - name: Debug if failed
+        if: ${{ failure() }}
+#        uses: csexton/debugger-action@master
+        with:
+          connect-timeout-seconds: 600000
+        uses: mxschmitt/action-tmate@master
+        timeout-minutes: 360
 
       - name: Print disk usage after compiling
         if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
