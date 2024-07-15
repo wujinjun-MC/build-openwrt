@@ -434,5 +434,15 @@ jobs:
             - sha256sum
 
       - name: Print disk usage before exiting
+        if: always()
         run: |
           df -h
+
+#      - uses: actions/checkout@v4
+      - name: Debug if failed
+        if: ${{ failure() }}
+#        uses: csexton/debugger-action@master
+        with:
+          connect-timeout-seconds: 600000
+        uses: mxschmitt/action-tmate@master
+        timeout-minutes: 360
