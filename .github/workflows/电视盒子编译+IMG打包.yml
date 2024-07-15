@@ -371,7 +371,6 @@ jobs:
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Print disk usage after clearing
-        if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
         run: |
           df -h
 
