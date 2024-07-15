@@ -202,10 +202,10 @@ jobs:
     runs-on: ubuntu-22.04
     if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
 
-    timeout-minutes: 360
+    timeout-minutes: 4320
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Check Server Performance
         run: |
@@ -221,6 +221,15 @@ jobs:
           echo -e "$(sudo lshw -short -C memory | grep GiB)\n"
           echo "--------------------------硬盘信息--------------------------"
           echo "硬盘数量: $(ls /dev/sd* | grep -v [1-9] | wc -l)" && df -hT
+
+#      - uses: actions/checkout@v4
+      - name: Start remote debugging
+        if: ${{ inputs.make_config_via_tmate }}
+#        uses: csexton/debugger-action@master
+        uses: mxschmitt/action-tmate@master
+        with:
+          detached: true
+        timeout-minutes: 360
 
       - name: Environment initialization
         id: init
@@ -321,8 +330,8 @@ jobs:
 #      - uses: actions/checkout@v4
       - name: Customize config via tmate
         if: ${{ inputs.make_config_via_tmate }}
-#        uses: csexton/debugger-action@master
-        uses: mxschmitt/action-tmate@master
+        uses: csexton/debugger-action@master
+#        uses: mxschmitt/action-tmate@master
         timeout-minutes: 360
 
       - name: Download package
@@ -343,7 +352,7 @@ jobs:
         run: |
           cd openwrt/
           echo -e "$(nproc) thread compile"
-          make -j$(($(nproc) + 1)) V=s || make -j1 || make -j1 V=s
+          make -j$(($(nproc) + 1)) V=s # || make -j1 || make -j1 V=s
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Print disk usage after compiling
@@ -371,6 +380,7 @@ jobs:
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Print disk usage after clearing
+        if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
         run: |
           df -h
 
