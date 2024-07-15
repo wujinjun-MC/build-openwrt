@@ -229,6 +229,7 @@ jobs:
         uses: mxschmitt/action-tmate@master
         with:
           detached: true
+          connect-timeout-seconds: 600000
         timeout-minutes: 360
 
       - name: Environment initialization
@@ -331,6 +332,8 @@ jobs:
       - name: Customize config via tmate
         if: ${{ inputs.make_config_via_tmate }}
         uses: csexton/debugger-action@master
+        with:
+          connect-timeout-seconds: 600000
 #        uses: mxschmitt/action-tmate@master
         timeout-minutes: 360
 
