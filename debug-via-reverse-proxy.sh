@@ -7,7 +7,7 @@ echo "Starting tunnel..."
 cpolar authtoken "$MY_REVERSE_PROXY_TOKEN"
 echo "Pleased wait and check tcp tunnel on your dashboard at https://dashboard.cpolar.com/status"
 echo "Remove /tmp/keep-term to continue"
-timeout -s 2 5h cpolar tcp 22 -daemon on -log ~/test.log -log-level INFO & tail -F ~/test.log &
+timeout -s 2 5h cpolar tcp 22 -daemon on -log ~/test.log -log-level INFO &# tail -F ~/test.log &
 touch /tmp/keep-term
 while true
 do
