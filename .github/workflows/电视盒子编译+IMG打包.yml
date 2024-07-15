@@ -208,12 +208,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
-      - name: Test Cpolar
-        shell: bash
-        run: bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh
 
-
+      #- name: Test Cpolar
+      #  shell: bash
+      #  run: bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh
 
       - name: Check Server Performance
         run: |
