@@ -322,8 +322,9 @@ jobs:
       - name: Customize config via Ngrok(replaced tmate)
         if: ${{ inputs.make_config_via_tmate }}
         uses: luchihoratiu/debug-via-ssh@main
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
-        SSH_PASS: ${{ secrets.SSH_PASS }}
+        with:
+          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+          SSH_PASS: ${{ secrets.SSH_PASS }}
         # NGROK_REGION: ap
         # NGROK_TIMEOUT: 21500
 #         uses: csexton/debugger-action@master
