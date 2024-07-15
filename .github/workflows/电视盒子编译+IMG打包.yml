@@ -211,7 +211,7 @@ jobs:
       
       - name: Test Cpolar
         shell: bash
-        run: ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh
+        run: bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh
 
 
 
@@ -326,20 +326,20 @@ jobs:
           cd openwrt/
           ${GITHUB_WORKSPACE}/${DIY_P2_SH}
 
-#      - uses: actions/checkout@v4
-      - name: Customize config via Ngrok(replaced tmate)
-        if: ${{ inputs.make_config_via_tmate }}
-        uses: joshlarsen/ssh-tunnel-action@main
-        with:
-          ngrok_token: ${{ secrets.NGROK_AUTH_TOKEN }}
-          #SSH_PASS: ${{ secrets.SSH_PASS }}
-          ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
-          timeout: 5h
-#         uses: csexton/debugger-action@master
+# #      - uses: actions/checkout@v4
+#       - name: Customize config via Ngrok(replaced tmate)
+#         if: ${{ inputs.make_config_via_tmate }}
+#         uses: joshlarsen/ssh-tunnel-action@main
 #         with:
-#           connect-timeout-seconds: 600000
-# #        uses: mxschmitt/action-tmate@master
-#         timeout-minutes: 360
+#           ngrok_token: ${{ secrets.NGROK_AUTH_TOKEN }}
+#           #SSH_PASS: ${{ secrets.SSH_PASS }}
+#           ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+#           timeout: 5h
+# #         uses: csexton/debugger-action@master
+# #         with:
+# #           connect-timeout-seconds: 600000
+# # #        uses: mxschmitt/action-tmate@master
+# #         timeout-minutes: 360
 
       - name: Download package
         id: package
@@ -362,14 +362,14 @@ jobs:
           make -j$(($(nproc) + 1)) V=s # || make -j1 || make -j1 V=s
           echo "status=success" >> ${GITHUB_OUTPUT}
 
-#      - uses: actions/checkout@v4
-      - name: Debug if failed
-        if: ${{ failure() }}
-#        uses: csexton/debugger-action@master
-        with:
-          connect-timeout-seconds: 600000
-        uses: mxschmitt/action-tmate@master
-        timeout-minutes: 360
+# #      - uses: actions/checkout@v4
+#       - name: Debug if failed
+#         if: ${{ failure() }}
+# #        uses: csexton/debugger-action@master
+#         with:
+#           connect-timeout-seconds: 600000
+#         uses: mxschmitt/action-tmate@master
+#         timeout-minutes: 360
 
       - name: Print disk usage after compiling
         if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
@@ -451,11 +451,11 @@ jobs:
         run: |
           df -h
 
-#      - uses: actions/checkout@v4
-      - name: Debug if failed
-        if: ${{ failure() }}
-#        uses: csexton/debugger-action@master
-        with:
-          connect-timeout-seconds: 600000
-        uses: mxschmitt/action-tmate@master
-        timeout-minutes: 360
+# #      - uses: actions/checkout@v4
+#       - name: Debug if failed
+#         if: ${{ failure() }}
+# #        uses: csexton/debugger-action@master
+#         with:
+#           connect-timeout-seconds: 600000
+#         uses: mxschmitt/action-tmate@master
+#         timeout-minutes: 360
