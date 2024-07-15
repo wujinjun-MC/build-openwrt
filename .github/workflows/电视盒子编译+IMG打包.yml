@@ -222,7 +222,7 @@ jobs:
           echo "--------------------------硬盘信息--------------------------"
           echo "硬盘数量: $(ls /dev/sd* | grep -v [1-9] | wc -l)" && df -hT
 
-      - name: Initialization environment
+      - name: Environment initialization
         id: init
         env:
           DEBIAN_FRONTEND: noninteractive
@@ -251,6 +251,10 @@ jobs:
           swap-size-mb: 4096
           remove-dotnet: true
           remove-android: true
+
+      - name: Print disk usage after freeing disk space
+        run: |
+          df -h
 
       - name: Clone source code [ ${{ inputs.source_branch }} ]
         id: codes
@@ -289,6 +293,10 @@ jobs:
           df -hT ${PWD}
           echo "status=success" >> ${GITHUB_OUTPUT}
 
+      - name: Print disk usage after cloning repo
+        run: |
+          df -h
+
       - name: Load custom feeds
         run: |
           [[ -f "${FEEDS_CONF}" ]] && cp -f ${FEEDS_CONF} openwrt/feeds.conf.default
@@ -313,8 +321,8 @@ jobs:
 #      - uses: actions/checkout@v4
       - name: Customize config via tmate
         if: ${{ inputs.make_config_via_tmate }}
-        uses: csexton/debugger-action@master
-#        uses: mxschmitt/action-tmate@master
+#        uses: csexton/debugger-action@master
+        uses: mxschmitt/action-tmate@master
         timeout-minutes: 360
 
       - name: Download package
@@ -326,6 +334,10 @@ jobs:
           find dl -size -1024c -exec ls -l {} \;
           find dl -size -1024c -exec rm -f {} \;
 
+      - name: Print disk usage after downloading package
+        run: |
+          df -h
+
       - name: Compile the OpenWrt
         id: compile
         run: |
@@ -333,6 +345,11 @@ jobs:
           echo -e "$(nproc) thread compile"
           make -j$(($(nproc) + 1)) V=s || make -j1 || make -j1 V=s
           echo "status=success" >> ${GITHUB_OUTPUT}
+
+      - name: Print disk usage after compiling
+        if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
+        run: |
+          df -h
 
       - name: Clear server space
         id: clean
@@ -352,6 +369,11 @@ jobs:
           # Set output information
           df -hT ${PWD}
           echo "status=success" >> ${GITHUB_OUTPUT}
+
+      - name: Print disk usage after clearing
+        if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
+        run: |
+          df -h
 
       - name: Upload OpenWrt to Release
         uses: ncipollo/release-action@main
@@ -398,3 +420,7 @@ jobs:
             - Login to OpenWrt → System → Amlogic Service → Install OpenWrt
             ### OpenWrt Image Verification
             - sha256sum
+
+      - name: Print disk usage before exiting
+        run: |
+          df -h
