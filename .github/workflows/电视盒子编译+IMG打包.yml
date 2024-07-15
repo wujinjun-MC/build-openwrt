@@ -321,12 +321,12 @@ jobs:
 #      - uses: actions/checkout@v4
       - name: Customize config via Ngrok(replaced tmate)
         if: ${{ inputs.make_config_via_tmate }}
-        uses: luchihoratiu/debug-via-ssh@main
+        uses: joshlarsen/ssh-tunnel-action@main
         with:
-          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
-          SSH_PASS: ${{ secrets.SSH_PASS }}
-        # NGROK_REGION: ap
-        # NGROK_TIMEOUT: 21500
+          ngrok_token: ${{ secrets.NGROK_AUTH_TOKEN }}
+          #SSH_PASS: ${{ secrets.SSH_PASS }}
+          ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+          timeout: 5h
 #         uses: csexton/debugger-action@master
 #         with:
 #           connect-timeout-seconds: 600000
