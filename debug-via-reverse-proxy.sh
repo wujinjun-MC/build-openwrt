@@ -6,11 +6,11 @@ echo "$MY_SSH_PUB_KEY" >> ~/.ssh/authorized_keys
 echo "Starting tunnel..."
 cpolar authtoken "$MY_REVERSE_PROXY_TOKEN"
 echo "Pleased wait and check tcp tunnel on your dashboard at https://dashboard.cpolar.com/status"
-echo "Remove /tmp/keep-term to continue"
+# echo "Remove /tmp/keep-term to continue"
 cpolar tcp 22 -daemon on -log ~/test.log -log-level INFO &# tail -F ~/test.log &
 if [ "$1"x != "nonblock"x ]
 then
-    if [[ -f /tmp/keep-term ]]
+    if ! [[ -f /tmp/keep-term ]]
     then
         export KEEPALIVE_FLAG_FILE=/tmp/keep-term
     else
