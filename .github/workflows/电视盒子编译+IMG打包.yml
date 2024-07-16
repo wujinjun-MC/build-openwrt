@@ -136,7 +136,7 @@ on:
         default: "5.15.1_6.1.1_6.6.1"
         type: choice
         options:
-          - 5.4.1_5.10.1_5.15.1_6.6.1.1_6.6.1
+          - 5.4.1_5.10.1_5.15.1_6.1.1_6.6.1
           - 5.15.1_6.1.1_6.6.1
           - 6.1.1_6.6.1
           - 5.4.1
@@ -324,6 +324,7 @@ jobs:
 
       - name: Remote make menuconfig
         if: ${{ inputs.make_config_via_reverse_proxy_ssh }}
+        working-directory: /workdir/openwrt
         shell: bash
         run: bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh
 
