@@ -10,9 +10,15 @@ echo "Remove /tmp/keep-term to continue"
 cpolar tcp 22 -daemon on -log ~/test.log -log-level INFO &# tail -F ~/test.log &
 if [ "$1"x != "nonblock"x ]
 then
-    KEEPALIVE_FLAG_FILE=$(mktemp)
+    if [[ -f /tmp/keep-term ]]
+    then
+        export KEEPALIVE_FLAG_FILE=/tmp/keep-term
+    else
+        export KEEPALIVE_FLAG_FILE=$(mktemp)
+    fi
     touch "$KEEPALIVE_FLAG_FILE"
     echo "Remove $KEEPALIVE_FLAG_FILE to continue"
+    echo "Remove $KEEPALIVE_FLAG_FILE to stop blocking next step"  >> ~/.bash_profile
     while true
     do
         if ! [[ -f "$KEEPALIVE_FLAG_FILE" ]]
