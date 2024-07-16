@@ -184,8 +184,8 @@ on:
           - angel
           - yourname
           - wujinjun
-      make_config_via_tmate:
-        description: "Make menuconfig via tmate(Deprecated, may terminate after 45-60 minutes)"
+      make_config_via_reverse_proxy_ssh:
+        description: "Make menuconfig via ssh under reverse proxy tunnel(Deprecated, may terminate after 45-60 minutes)"
         required: false
         default: false
         type: boolean
@@ -323,6 +323,10 @@ jobs:
           chmod +x ${DIY_P2_SH}
           cd openwrt/
           ${GITHUB_WORKSPACE}/${DIY_P2_SH}
+
+      - name: Remote make menuconfig
+        shell: bash
+        run: bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh
 
 # #      - uses: actions/checkout@v4
 #       - name: Customize config via Ngrok(replaced tmate)
