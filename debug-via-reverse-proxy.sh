@@ -1,6 +1,6 @@
 # cd /tmp
 # wget -q https://www.cpolar.com/static/downloads/releases/3.3.18/cpolar-stable-linux-amd64.zip -O cpolar.zip && unzip cpolar.zip
-curl -sL https://git.io/cpolar | sed '/download_cpolar() {/a RELEASE_VERSION=latest' | sudo bash
+which cpolar || curl -sL https://git.io/cpolar | sed '/download_cpolar() {/a RELEASE_VERSION=latest' | sudo bash
 mkdir -p ~/.ssh
 echo "$MY_SSH_PUB_KEY" >> ~/.ssh/authorized_keys
 echo "Starting tunnel..."
@@ -18,7 +18,7 @@ then
     fi
     touch "$KEEPALIVE_FLAG_FILE"
     echo "Remove $KEEPALIVE_FLAG_FILE to continue"
-    echo "Remove $KEEPALIVE_FLAG_FILE to stop blocking next step"  >> ~/.bash_profile
+    echo "echo Remove $KEEPALIVE_FLAG_FILE to stop blocking next step"  >> ~/.bash_profile
     while true
     do
         if ! [[ -f "$KEEPALIVE_FLAG_FILE" ]]
