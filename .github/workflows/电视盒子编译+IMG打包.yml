@@ -325,6 +325,7 @@ jobs:
           ${GITHUB_WORKSPACE}/${DIY_P2_SH}
 
       - name: Remote make menuconfig
+        if: ${{ inputs.make_config_via_reverse_proxy_ssh }}
         shell: bash
         run: bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh
 
