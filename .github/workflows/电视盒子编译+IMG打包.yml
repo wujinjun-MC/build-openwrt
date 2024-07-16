@@ -252,11 +252,9 @@ jobs:
         uses: easimon/maximize-build-space@master
         with:
           build-mount-path: /workdir
-          root-reserve-mb: 1024
-          temp-reserve-mb: 1024
+          root-reserve-mb: 10240
+          temp-reserve-mb: 2048
           swap-size-mb: 4096
-          remove-dotnet: true
-          remove-android: true
 
       - name: Print disk usage after freeing disk space
         run: |
