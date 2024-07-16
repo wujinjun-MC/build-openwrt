@@ -10,6 +10,15 @@
 3. 远程SSH，方便调试和make menuconfig
 4. 充分利用硬盘空间，防止空间不足失败
 5. Immortalwrt-master默认配置增加常用软件包，导出镜像包括ext4和squashfs
+6. 修复luci-app-amlogic未安装
+
+注意事项:
+
+1. 远程SSH需要Cpolar账户，获取TOKEN后在右上角的 Settings > Secrets > Actions > New repostiory secret，添加两个secret:
+    1. Name: SSH_PUB_KEY, Value: 自己的SSH公钥
+    2. Name: REVERSE_PROXY_TOKEN, Value: Cpolar token
+2. 开启远程SSH可能导致workflow运行45分钟时被强制停止，刷新页面后显示跳过，记得经常保存配置文件并下载
+3. 如非amlogic-s9xxx机型，在diy-part1.sh和diy-part2.sh中删除src-git开头的有关amlogic的仓库
 
 ## 以下为原始Readme内容
 
