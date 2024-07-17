@@ -233,6 +233,7 @@ jobs:
 
       - name: Collect Data on Startup
         run: |
+          sudo timedatectl set-timezone "${TZ}"
           echo "TIMESTAMP_ON_STARTUP=$(date +%s)" >> $GITHUB_ENV
 
       - name: Check Server Performance
