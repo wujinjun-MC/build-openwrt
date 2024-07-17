@@ -226,7 +226,7 @@ jobs:
       #  run: bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh
 
       - name: Remote debug
-        if: ${{ env.CPOLAR }} == 'debug'
+        if: env.CPOLAR == 'debug'
         shell: bash
         run: |
           echo "${{ env.CPOLAR }}" ; sleep 999999999
@@ -346,7 +346,7 @@ jobs:
           ${GITHUB_WORKSPACE}/${DIY_P2_SH}
 
       - name: Remote make menuconfig
-        if: ${{ env.CPOLAR }} == 'mkconf'
+        if: env.CPOLAR == 'mkconf'
         working-directory: /workdir/openwrt
         shell: bash
         run: bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh
@@ -453,12 +453,3 @@ jobs:
         if: always()
         run: |
           df -h
-
-# #      - uses: actions/checkout@v4
-#       - name: Debug if failed
-#         if: ${{ failure() }}
-# #        uses: csexton/debugger-action@master
-#         with:
-#           connect-timeout-seconds: 600000
-#         uses: mxschmitt/action-tmate@master
-#         timeout-minutes: 360
