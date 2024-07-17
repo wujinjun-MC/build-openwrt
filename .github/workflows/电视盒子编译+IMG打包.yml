@@ -281,7 +281,7 @@ jobs:
         run: |
           df -h
 
-      - name: Clone source code [ ${{ env.SOURCE_BRANCH }} ]
+      - name: Clone source code [ ${{ inputs.source_branch || 'immortalwrt-master' }} ]
         id: codes
         working-directory: /workdir
         if: ${{ steps.init.outputs.status }} == 'success' && !cancelled()
