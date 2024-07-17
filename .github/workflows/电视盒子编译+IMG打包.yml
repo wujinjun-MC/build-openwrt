@@ -227,7 +227,6 @@ jobs:
 
       - name: Remote debug
         if: ${{ env.CPOLAR }} == "debug"
-        working-directory: /workdir/openwrt
         shell: bash
         run: bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh nonblock
 
