@@ -344,7 +344,7 @@ jobs:
           ${GITHUB_WORKSPACE}/${DIY_P2_SH}
 
       - name: Remote make menuconfig
-        if: ${{ env.CPOLAR }} == "mkconf"
+        if: ${{ env.CPOLAR }} == 'mkconf'
         working-directory: /workdir/openwrt
         shell: bash
         run: bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh
