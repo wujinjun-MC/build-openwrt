@@ -228,9 +228,7 @@ jobs:
       - name: Remote debug
         if: env.CPOLAR == 'debug'
         shell: bash
-        run: |
-          echo "${{ env.CPOLAR }}" ; sleep 999999999
-          bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh nonblock
+        run: bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh nonblock
 
       - name: Collect Data on Startup
         run: |
@@ -373,13 +371,13 @@ jobs:
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Print disk usage after compiling
-        if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
+        if: steps.compile.outputs.status == 'success' && !cancelled()
         run: |
           df -h
 
       - name: Clear server space
         id: clean
-        if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
+        if: steps.compile.outputs.status == 'success' && !cancelled()
         run: |
           # Clean up server space
           cd openwrt/
@@ -397,13 +395,13 @@ jobs:
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Print disk usage after clearing
-        if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
+        if: steps.clean.outputs.status == 'success' && !cancelled()
         run: |
           df -h
 
       - name: Upload OpenWrt to Release
         uses: ncipollo/release-action@main
-        if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
+        if: steps.clean.outputs.status == 'success' && !cancelled()
         with:
           tag: ${{ steps.codes.outputs.build_tag }}
           artifacts: openwrt/output/*
@@ -413,7 +411,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
 
       - name: Packaging OpenWrt
-        if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
+        if: steps.clean.outputs.status == 'success' && !cancelled()
         uses: ophub/amlogic-s9xxx-openwrt@main
         with:
           openwrt_path: openwrt/output/*rootfs.tar.gz
@@ -427,7 +425,7 @@ jobs:
 
       - name: Upload the packaged OpenWrt
         uses: ncipollo/release-action@main
-        if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
+        if: env.PACKAGED_STATUS == 'success' && !cancelled()
         with:
           tag: ${{ steps.codes.outputs.build_tag }}
           artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
