@@ -5,11 +5,11 @@
 
 修改内容:
 
-1. 增加6.6系列内核支持
+1. 增加6.6系列内核支持(测试中，已知 Phiconn N1 卡死)
 2. 默认编译芯片s905d，Immortalwrt
 3. 远程SSH，方便调试和make menuconfig
 4. 充分利用硬盘空间，防止空间不足失败
-5. Immortalwrt-master默认配置增加常用软件包，导出镜像包括ext4和squashfs
+5. Immortalwrt-master默认配置增加常用软件包，~~导出镜像包括ext4和squashfs~~(引起导出镜像错误)
 6. 修复luci-app-amlogic未安装
 
 注意事项:
