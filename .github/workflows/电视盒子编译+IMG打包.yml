@@ -228,7 +228,9 @@ jobs:
       - name: Remote debug
         if: ${{ env.CPOLAR }} == 'debug'
         shell: bash
-        run: bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh nonblock
+        run: |
+          echo "${{ env.CPOLAR }}" ; sleep 999999999
+          bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh nonblock
 
       - name: Collect Data on Startup
         run: |
