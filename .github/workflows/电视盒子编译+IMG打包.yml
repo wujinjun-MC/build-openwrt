@@ -194,22 +194,22 @@ on:
           - mkconf
 
 env:
-  SOURCE_BRANCH: ${{ inputs.source_branch || "immortalwrt-master" }}
-  OPENWRT_BOARD: ${{ inputs.openwrt_board || "s905d" }}
-  OPENWRT_KERNEL: ${{ inputs.openwrt_kernel || "6.6.1_6.1.1_5.15.1" }}
+  SOURCE_BRANCH: ${{ inputs.source_branch || 'immortalwrt-master' }}
+  OPENWRT_BOARD: ${{ inputs.openwrt_board || 's905d' }}
+  OPENWRT_KERNEL: ${{ inputs.openwrt_kernel || '6.6.1_6.1.1_5.15.1' }}
   AUTO_KERNEL: ${{ !contains(inputs.auto_kernel, 'false') }}
-  KERNEL_REPO: ${{ inputs.kernel_repo || "ophub/kernel" }}
-  KERNEL_USAGE: ${{ inputs.kernel_usage || "stable" }}
-  OPENWRT_STORAGE: ${{ inputs.openwrt_storage || "my_dev" }}
-  BUILDER_NAME: ${{ inputs.builder_name || "wujinjun" }}
-  FEEDS_CONF: config/${{ inputs.source_branch || "immortalwrt-master" }}/feeds.conf.default
-  CONFIG_FILE: config/${{ inputs.source_branch || "immortalwrt-master" }}/config
-  DIY_P1_SH: config/${{ inputs.source_branch || "immortalwrt-master" }}/diy-part1.sh
-  DIY_P2_SH: config/${{ inputs.source_branch || "immortalwrt-master" }}/diy-part2.sh
+  KERNEL_REPO: ${{ inputs.kernel_repo || 'ophub/kernel' }}
+  KERNEL_USAGE: ${{ inputs.kernel_usage || 'stable' }}
+  OPENWRT_STORAGE: ${{ inputs.openwrt_storage || 'my_dev' }}
+  BUILDER_NAME: ${{ inputs.builder_name || 'wujinjun' }}
+  FEEDS_CONF: config/${{ inputs.source_branch || 'immortalwrt-master' }}/feeds.conf.default
+  CONFIG_FILE: config/${{ inputs.source_branch || 'immortalwrt-master' }}/config
+  DIY_P1_SH: config/${{ inputs.source_branch || 'immortalwrt-master' }}/diy-part1.sh
+  DIY_P2_SH: config/${{ inputs.source_branch || 'immortalwrt-master' }}/diy-part2.sh
   TZ: America/New_York
-  MY_SSH_PUB_KEY: ${{ secrets.SSH_PUBLIC_KEY || "none" }}
-  MY_REVERSE_PROXY_TOKEN: ${{ secrets.REVERSE_PROXY_TOKEN || "none" }}
-  CPOLAR: ${{ inputs.debug_or_make_config_via_reverse_proxy_ssh || "debug" }}
+  MY_SSH_PUB_KEY: ${{ secrets.SSH_PUBLIC_KEY || 'none' }}
+  MY_REVERSE_PROXY_TOKEN: ${{ secrets.REVERSE_PROXY_TOKEN || 'none' }}
+  CPOLAR: ${{ inputs.debug_or_make_config_via_reverse_proxy_ssh || 'debug' }}
 
 jobs:
   build:
