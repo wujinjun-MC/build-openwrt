@@ -4,6 +4,7 @@ which cpolar || curl -sL https://git.io/cpolar | sed '/download_cpolar() {/a REL
 mkdir -p ~/.ssh
 echo "$MY_SSH_PUB_KEY" >> ~/.ssh/authorized_keys
 echo "Starting tunnel..."
+env > ~/current_env.txt
 cpolar authtoken "$MY_REVERSE_PROXY_TOKEN"
 echo "Pleased wait and check tcp tunnel on your dashboard at https://dashboard.cpolar.com/status"
 # echo "Remove /tmp/keep-term to continue"

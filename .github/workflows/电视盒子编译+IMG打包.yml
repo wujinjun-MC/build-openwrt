@@ -133,12 +133,13 @@ on:
       openwrt_kernel:
         description: "Select kernel version"
         required: false
-        default: "6.6.1_6.1.1_5.15.1"
+        default: "6.1.1_5.15.1"
         type: choice
         options:
           - 6.6.1_6.1.1_5.15.1_5.10.1_5.4.1
           - 6.6.1_6.1.1_5.15.1
           - 6.6.1_6.1.1
+          - 6.1.1_5.15.1
           - 5.4.1
           - 5.10.1
           - 5.15.1
@@ -345,9 +346,10 @@ jobs:
 
       - name: Remote make menuconfig
         if: env.CPOLAR == 'mkconf'
-        working-directory: /workdir/openwrt
+        # working-directory: /workdir/openwrt
         shell: bash
-        run: bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh
+        run: |
+          bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh
 
       - name: Download package
         id: package
@@ -374,6 +376,13 @@ jobs:
         if: steps.compile.outputs.status == 'success' && !cancelled()
         run: |
           df -h
+
+      - name: Collect Data After Finishing Compile
+        run: |
+          echo "TIMESTAMP_AFTER_COMPILE=$(date +%s)" >> $GITHUB_ENV
+          echo "TIME_USAGE_STARTUP_TO_COMPILE_FINISHED=$(( TIMESTAMP_AFTER_COMPILE - TIMESTAMP_ON_STARTUP ))" >> $GITHUB_ENV
+          echo "DISK_USAGE_AFTER_COMPILE_HUMAN=$(df -h /workdir | tail -n 1 |  awk '{print $3}')" >> $GITHUB_ENV
+          echo "DISK_USAGE_AFTER_COMPILE_ORIGIN=$(df /workdir | tail -n 1 |  awk '{print $3}')" >> $GITHUB_ENV
 
       - name: Clear server space
         id: clean
@@ -445,7 +454,8 @@ jobs:
             ### OpenWrt Image Verification
             - sha256sum
             ### Openwrt Build Info
-            - Time usage: 
+            - Disk usage after compiling: ${{ env.DISK_USAGE_AFTER_COMPILE_HUMAN }}(${{ env.DISK_USAGE_AFTER_COMPILE_ORIGIN }})
+            - Time usage: ${{ env.TIME_USAGE_STARTUP_TO_COMPILE_FINISHED }}
 
       - name: Print disk usage before exiting
         if: always()
