@@ -226,7 +226,7 @@ jobs:
       #  run: bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh
 
       - name: Remote debug
-        if: ${{ env.CPOLAR }} == "debug"
+        if: ${{ env.CPOLAR }} == 'debug'
         shell: bash
         run: bash ${GITHUB_WORKSPACE}/debug-via-reverse-proxy.sh nonblock
 
