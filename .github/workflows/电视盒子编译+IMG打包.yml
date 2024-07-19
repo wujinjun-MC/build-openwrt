@@ -6,6 +6,8 @@
 name: 电视盒子编译+IMG打包
 
 on:
+  schedule:
+    - cron: '0 7 */2 * *'
   repository_dispatch:
   workflow_dispatch:
     inputs:
