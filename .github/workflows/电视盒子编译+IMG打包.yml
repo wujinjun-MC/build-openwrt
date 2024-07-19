@@ -182,9 +182,32 @@ on:
         default: "wujinjun"
         type: choice
         options:
-          - angel
-          - yourname
           - wujinjun
+          - your_name
+      fs_size:
+        description: "Set Openwrt boot/rootfs size (MB/MB). If using btrfs(default), double size will be taken exactly, because of partition structure suitable for updating via luci-app-amlogic, like A/B partition on Android"
+        required: false
+        default: "512/2048"
+        type: choice
+        options:
+          - 256/512
+          - 256/1024
+          - 256/2048
+          - 256/4096
+          - 256/8192
+          - 256/16384
+          - 512/512
+          - 512/1024
+          - 512/2048
+          - 512/4096
+          - 512/8192
+          - 512/16384
+          - 1024/1024
+          - 1024/1024
+          - 1024/2048
+          - 1024/4096
+          - 1024/8192
+          - 1024/16384
       debug_or_make_config_via_reverse_proxy_ssh:
         description: "Make menuconfig via ssh under reverse proxy tunnel(Deprecated, may terminate after 45-60 minutes)"
         default: "debug"
@@ -203,6 +226,7 @@ env:
   KERNEL_USAGE: ${{ inputs.kernel_usage || 'stable' }}
   OPENWRT_STORAGE: ${{ inputs.openwrt_storage || 'my-dev' }}
   BUILDER_NAME: ${{ inputs.builder_name || 'wujinjun' }}
+  FS_SIZE: ${{ inputs.fs_size || '512/2048' }}
   FEEDS_CONF: config/${{ inputs.source_branch || 'immortalwrt-master' }}/feeds.conf.default
   CONFIG_FILE: config/${{ inputs.source_branch || 'immortalwrt-master' }}/config
   DIY_P1_SH: config/${{ inputs.source_branch || 'immortalwrt-master' }}/diy-part1.sh
@@ -431,6 +455,7 @@ jobs:
           kernel_repo: ${{ env.KERNEL_REPO }}
           kernel_usage: ${{ env.KERNEL_USAGE }}
           builder_name: ${{ env.BUILDER_NAME }}
+          openwrt_size: ${{ env.FS_SIZE }}
           gh_token: ${{ secrets.GH_TOKEN }}
 
       - name: Upload the packaged OpenWrt
