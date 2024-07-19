@@ -167,15 +167,15 @@ on:
           - flippy
           - dev
           - beta
-      openwrt_storage:
-        description: "Select image storage type."
-        required: false
-        default: "my-dev"
-        type: choice
-        options:
-          - save
-          - temp
-          - my-dev
+      # openwrt_storage:
+      #   description: "Select image storage type."
+      #   required: false
+      #   default: "my-dev"
+      #   type: choice
+      #   options:
+      #     - save
+      #     - temp
+      #     - my-dev
       builder_name:
         description: "Set OpenWrt builder signature."
         required: false
@@ -201,7 +201,7 @@ env:
   AUTO_KERNEL: ${{ !contains(inputs.auto_kernel, 'false') }}
   KERNEL_REPO: ${{ inputs.kernel_repo || 'ophub/kernel' }}
   KERNEL_USAGE: ${{ inputs.kernel_usage || 'stable' }}
-  OPENWRT_STORAGE: ${{ inputs.openwrt_storage || 'my_dev' }}
+  OPENWRT_STORAGE: ${{ inputs.openwrt_storage || 'my-dev' }}
   BUILDER_NAME: ${{ inputs.builder_name || 'wujinjun' }}
   FEEDS_CONF: config/${{ inputs.source_branch || 'immortalwrt-master' }}/feeds.conf.default
   CONFIG_FILE: config/${{ inputs.source_branch || 'immortalwrt-master' }}/config
@@ -456,7 +456,7 @@ jobs:
             - sha256sum
             ### Openwrt Build Info
             - Disk usage after compiling: ${{ env.DISK_USAGE_AFTER_COMPILE_HUMAN }}(${{ env.DISK_USAGE_AFTER_COMPILE_ORIGIN }})
-            - Time usage: ${{ env.TIME_USAGE_STARTUP_TO_COMPILE_FINISHED }}
+#            - Time usage: ${{ env.TIME_USAGE_STARTUP_TO_COMPILE_FINISHED }}
 
       - name: Print disk usage before exiting
         if: always()
