@@ -226,7 +226,7 @@ env:
   AUTO_KERNEL: ${{ !contains(inputs.auto_kernel, 'false') }}
   KERNEL_REPO: ${{ inputs.kernel_repo || 'ophub/kernel' }}
   KERNEL_USAGE: ${{ inputs.kernel_usage || 'stable' }}
-  OPENWRT_STORAGE: ${{ inputs.openwrt_storage || 'my-dev' }}
+#  OPENWRT_STORAGE: ${{ inputs.openwrt_storage || 'my-dev' }}
   BUILDER_NAME: ${{ inputs.builder_name || 'wujinjun' }}
   FS_SIZE: ${{ inputs.fs_size || '512/2048' }}
   FEEDS_CONF: config/${{ inputs.source_branch || 'immortalwrt-master' }}/feeds.conf.default
@@ -341,7 +341,8 @@ jobs:
           ln -sf /workdir/openwrt ${GITHUB_WORKSPACE}/openwrt
 
           # Set output information
-          echo "build_tag=OpenWrt_${TAGS_NAME}_${{ env.OPENWRT_STORAGE }}_$(date +%Y%m%d_%H%m%S)" >> ${GITHUB_OUTPUT}
+#          echo "build_tag=OpenWrt_${TAGS_NAME}_${{ env.OPENWRT_STORAGE }}_$(date +%Y%m%d_%H%m%S)" >> ${GITHUB_OUTPUT}
+          echo "build_tag=OpenWrt_${TAGS_NAME}_$(date +%Y%m%d_%H%m%S)" >> ${GITHUB_OUTPUT}
           echo -e "REPO_URL: [ ${REPO_URL} ]\nREPO_BRANCH: [ ${REPO_BRANCH} ]\nTAGS_NAME: [ ${TAGS_NAME} ]"
           df -hT ${PWD}
           echo "status=success" >> ${GITHUB_OUTPUT}
