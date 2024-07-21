@@ -7,7 +7,7 @@ name: 电视盒子编译+IMG打包
 
 on:
   schedule:
-    - cron: '0 7 */2 * *'
+    - cron: '0 22 */2 * *'
   repository_dispatch:
   workflow_dispatch:
     inputs:
@@ -187,7 +187,7 @@ on:
           - wujinjun
           - your_name
       fs_size:
-        description: "Set Openwrt boot/rootfs size (MB/MB). If using btrfs(default), double size will be taken exactly, because of partition structure suitable for updating via luci-app-amlogic, like A/B partition on Android"
+        description: "Set Openwrt boot/rootfs size (MB/MB). If using btrfs(default), double size will be taken exactly after installing into eMMC, because of partition structure suitable for updating via luci-app-amlogic, like A/B partition on Android"
         required: false
         default: "512/2048"
         type: choice
@@ -483,6 +483,7 @@ jobs:
             ### OpenWrt Image Verification
             - sha256sum
             ### Openwrt Build Info
+            - Openwrt boot/rootfs size (MB/MB): ${{ env.FS_SIZE }}
             - Disk usage after compiling: ${{ env.DISK_USAGE_AFTER_COMPILE_HUMAN }}(${{ env.DISK_USAGE_AFTER_COMPILE_ORIGIN }})
 #            - Time usage: ${{ env.TIME_USAGE_STARTUP_TO_COMPILE_FINISHED }}
 
