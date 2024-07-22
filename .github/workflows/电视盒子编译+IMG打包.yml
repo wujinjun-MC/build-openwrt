@@ -497,6 +497,14 @@ jobs:
             - Openwrt boot/rootfs size (MB/MB): ${{ env.FS_SIZE }}
             - Disk usage after compiling: ${{ env.DISK_USAGE_AFTER_COMPILE_HUMAN }}(${{ env.DISK_USAGE_AFTER_COMPILE_ORIGIN }})
             - Time usage: ${{ env.TIME_USAGE_STARTUP_TO_COMPILE_FINISHED }}
+            - Build settings:
+              Source Branch: ${{ env.SOURCE_BRANCH }}
+              Board: ${{ env.OPENWRT_BOARD }}
+              Kernel: ${{ env.OPENWRT_KERNEL }} (Use latest: ${{ env.AUTO_KERNEL }})
+              Kernel Repo: ${{ env.KERNEL_REPO }}
+              Kernel Type: ${{ env.KERNEL_USAGE }}
+              Build Nmae: ${{ env.BUILDER_NAME }}
+              Cpolar: ${{ env.CPOLAR }}
 
       - name: Print disk usage before exiting
         if: always()
