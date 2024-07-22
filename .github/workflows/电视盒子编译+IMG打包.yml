@@ -191,7 +191,7 @@ on:
       fs_size:
         description: "Set Openwrt boot/rootfs size (MB/MB). If using btrfs(default), double size will be taken exactly after installing into eMMC, because of partition structure suitable for updating via luci-app-amlogic, like A/B partition on Android"
         required: false
-        default: "512/800"
+        default: "256/800"
         type: choice
         options:
           - 256/512
