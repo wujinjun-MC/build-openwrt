@@ -7,17 +7,19 @@
 
 1. 增加6.6系列内核支持(测试中，已知 Phiconn N1 卡死)
 2. 默认编译芯片s905d，Immortalwrt
-3. 远程SSH，方便调试和make menuconfig
+3. 远程SSH，方便调试和`make menuconfig`
 4. 充分利用硬盘空间，防止空间不足失败
 5. Immortalwrt-master默认配置增加常用软件包，~~导出镜像包括ext4和squashfs~~(引起导出镜像错误)
 6. 修复luci-app-amlogic未安装
+7. 可修改Boot和系统分区容量大小，扩容以防后续安装插件空间不足
+8. 生成编译生成的所有ipk包到`all_ipks.tar.gz`，生成编译目录文件树到`filetree.txt`
 
 注意事项:
 
 1. 远程SSH需要Cpolar账户，获取TOKEN后在右上角的 Settings > Secrets > Actions > New repostiory secret，添加两个secret:
     1. Name: SSH_PUB_KEY, Value: 自己的SSH公钥
     2. Name: REVERSE_PROXY_TOKEN, Value: Cpolar token
-2. 开启远程SSH可能导致workflow运行45分钟时被强制停止，刷新页面后显示跳过，记得经常保存配置文件并下载
+2. ~~开启远程SSH可能导致workflow运行45分钟时被强制停止，刷新页面后显示跳过，记得经常保存配置文件并下载~~ 使用`Cpolar`或其他的`Reverse Proxy`/`内网穿透`，伪入站连接式SSH，已绕过(低调谨防abuse)
 3. 如非amlogic-s9xxx机型，在diy-part1.sh和diy-part2.sh中删除src-git开头的有关amlogic的仓库
 
 ## 以下为原始Readme内容

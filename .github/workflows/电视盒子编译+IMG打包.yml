@@ -264,8 +264,8 @@ jobs:
 
       - name: Collect Data on Startup
         run: |
-          sudo timedatectl set-timezone ${{ env.TZ }}
-          echo "TIMESTAMP_ON_STARTUP=$(date +%s)" >> $GITHUB_ENV
+          # sudo timedatectl set-timezone ${{ env.TZ }}
+          printf "TIMESTAMP_ON_STARTUP=%(%s)T" >> $GITHUB_ENV
 
       - name: Check Server Performance
         run: |
@@ -413,10 +413,12 @@ jobs:
       - name: Collect Data After Finishing Compile
         run: |
           sudo timedatectl set-timezone ${{ env.TZ }}
-          echo "TIMESTAMP_AFTER_COMPILE=$(date +%s)" >> $GITHUB_ENV
+          printf "TIMESTAMP_AFTER_COMPILE=%(%s)T" >> $GITHUB_ENV
           echo "TIME_USAGE_STARTUP_TO_COMPILE_FINISHED=$(( TIMESTAMP_AFTER_COMPILE - TIMESTAMP_ON_STARTUP ))" >> $GITHUB_ENV
           echo "DISK_USAGE_AFTER_COMPILE_HUMAN=$(df -h /workdir | tail -n 1 |  awk '{print $3}')" >> $GITHUB_ENV
           echo "DISK_USAGE_AFTER_COMPILE_ORIGIN=$(df /workdir | tail -n 1 |  awk '{print $3}')" >> $GITHUB_ENV
+          # Read custom message which will be displayed in release notes
+          [ -a /workdir/openwrt/custom_release_notes.txt ] && echo "CUSTOM_RELEASE_NOTES=$(cat /workdir/openwrt/custom_release_notes.txt)" > $GITHUB_ENV
 
       - name: Clear server space
         id: clean
@@ -487,7 +489,9 @@ jobs:
             - Default IP: 192.168.1.1
             - Default username: root
             - Default password: password
-            - Default WIFI name: OpenWrt
+            - Default WIFI name:
+              - OpenWrt
+              - Immortalwrt
             - Default WIFI password: none
             ### Install to EMMC
             - Login to OpenWrt → System → Amlogic Service → Install OpenWrt
@@ -505,6 +509,8 @@ jobs:
               Kernel Type: ${{ env.KERNEL_USAGE }}
               Build Nmae: ${{ env.BUILDER_NAME }}
               Cpolar: ${{ env.CPOLAR }}
+            ### Custom Release Notes
+            ${{ env.CUSTOM_RELEASE_NOTES || 'N/A' }}
 
       - name: Print disk usage before exiting
         if: always()
