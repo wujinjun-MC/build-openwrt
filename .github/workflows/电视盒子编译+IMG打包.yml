@@ -135,19 +135,20 @@ on:
       openwrt_kernel:
         description: "Select kernel version"
         required: false
-        default: "6.1.1_5.15.1"
+        default: "6.1.1_6.6.1_5.15.1"
         type: choice
         options:
           - 6.6.1_6.1.1_5.15.1_5.10.1_5.4.1
-          - 6.6.1_6.1.1_5.15.1
+          - 6.1.1_6.6.1_5.15.1
           - 6.6.1_6.1.1
           - 6.1.1_5.15.1
           - 5.4.1
           - 5.10.1
           - 5.15.1
           - 6.1.1
+          - 6.1.90
           - 6.6.1
-          - 6.1.90_6.1.99_6.6.41
+          - 6.1.90_6.1.100_6.6.41
       auto_kernel:
         description: "Auto use the latest kernel"
         required: false
@@ -190,22 +191,25 @@ on:
       fs_size:
         description: "Set Openwrt boot/rootfs size (MB/MB). If using btrfs(default), double size will be taken exactly after installing into eMMC, because of partition structure suitable for updating via luci-app-amlogic, like A/B partition on Android"
         required: false
-        default: "512/2048"
+        default: "512/800"
         type: choice
         options:
           - 256/512
+          - 256/800
           - 256/1024
           - 256/2048
           - 256/4096
           - 256/8192
           - 256/16384
           - 512/512
+          - 512/800
           - 512/1024
           - 512/2048
           - 512/4096
           - 512/8192
           - 512/16384
           - 1024/1024
+          - 1024/800
           - 1024/1024
           - 1024/2048
           - 1024/4096
