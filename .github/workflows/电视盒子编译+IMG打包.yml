@@ -147,7 +147,7 @@ on:
           - 5.15.1
           - 6.1.1
           - 6.6.1
-          - 6.1.89
+          - 6.1.90_6.1.99_6.6.41
       auto_kernel:
         description: "Auto use the latest kernel"
         required: false
@@ -260,7 +260,7 @@ jobs:
 
       - name: Collect Data on Startup
         run: |
-          sudo timedatectl set-timezone "${TZ}"
+          sudo timedatectl set-timezone ${{ env.TZ }}
           echo "TIMESTAMP_ON_STARTUP=$(date +%s)" >> $GITHUB_ENV
 
       - name: Check Server Performance
@@ -408,6 +408,7 @@ jobs:
 
       - name: Collect Data After Finishing Compile
         run: |
+          sudo timedatectl set-timezone ${{ env.TZ }}
           echo "TIMESTAMP_AFTER_COMPILE=$(date +%s)" >> $GITHUB_ENV
           echo "TIME_USAGE_STARTUP_TO_COMPILE_FINISHED=$(( TIMESTAMP_AFTER_COMPILE - TIMESTAMP_ON_STARTUP ))" >> $GITHUB_ENV
           echo "DISK_USAGE_AFTER_COMPILE_HUMAN=$(df -h /workdir | tail -n 1 |  awk '{print $3}')" >> $GITHUB_ENV
@@ -449,6 +450,9 @@ jobs:
           removeArtifacts: false
           replacesArtifacts: true
           token: ${{ secrets.GH_TOKEN }}
+          body: |
+            Rootfs is packed as *rootfs.tar.gz
+            Packaging firmware(May fail if messages are not changed after waiting and refreshing)
 
       - name: Packaging OpenWrt
         if: steps.clean.outputs.status == 'success' && !cancelled()
@@ -488,9 +492,17 @@ jobs:
             ### Openwrt Build Info
             - Openwrt boot/rootfs size (MB/MB): ${{ env.FS_SIZE }}
             - Disk usage after compiling: ${{ env.DISK_USAGE_AFTER_COMPILE_HUMAN }}(${{ env.DISK_USAGE_AFTER_COMPILE_ORIGIN }})
-#            - Time usage: ${{ env.TIME_USAGE_STARTUP_TO_COMPILE_FINISHED }}
+            - Time usage: ${{ env.TIME_USAGE_STARTUP_TO_COMPILE_FINISHED }}
 
       - name: Print disk usage before exiting
         if: always()
         run: |
           df -h
+
+      - name: Wait for Remote Debug Exit
+        if: env.CPOLAR != 'none' && !cancelled()
+        shell: bash
+        run: |
+          sudo timedatectl set-timezone ${{ env.TZ }}
+          ( pgrep cpolar && [ $(( $(date +%s) - TIMESTAMP_AFTER_COMPILE )) -lt 21500 ] ) || exit 0
+          sleep $(( 21550 - $(( $(date +%s) - TIMESTAMP_AFTER_COMPILE )) ))
