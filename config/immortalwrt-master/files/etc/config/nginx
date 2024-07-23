@@ -1,0 +1,12 @@
+# Nginx config which disables default HTTPS redirection
+# 关闭Nginx默认强制跳转HTTPS
+
+config main global
+	option uci_enable 'true'
+ 
+config server '_lan'
+	list listen '80 default_server'
+	list listen '[::]:80 default_server'
+	option server_name '_lan'
+	#list include 'restrict_locally'
+	list include 'conf.d/*.locations'
