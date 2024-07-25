@@ -15,6 +15,7 @@ cpolar authtoken "$MY_REVERSE_PROXY_TOKEN"
 echo "Pleased wait and check tcp tunnel on your dashboard at https://dashboard.cpolar.com/status"
 # echo "Remove /tmp/keep-term to continue"
 cpolar tcp 22 -daemon on -log /tmp/cpolar.log -log-level INFO &# tail -F ~/test.log &
+sleep 10
 if [ "$1"x != "nonblock"x ]
 then
     if ! [[ -f /tmp/keep-term ]]
@@ -30,6 +31,11 @@ then
     do
         if ! [[ -f "$KEEPALIVE_FLAG_FILE" ]]
         then
+            echo "Keepalive file removed, continue."
+            break
+        elif ! pgrep cpolar
+        then
+            echo "Cpolar exited, continue."
             break
         fi
         sleep 10
