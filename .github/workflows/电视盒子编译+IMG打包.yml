@@ -419,7 +419,7 @@ jobs:
           echo "DISK_USAGE_AFTER_COMPILE_HUMAN=$(df -h /workdir | tail -n 1 |  awk '{print $3}')" >> $GITHUB_ENV
           echo "DISK_USAGE_AFTER_COMPILE_ORIGIN=$(df /workdir | tail -n 1 |  awk '{print $3}')" >> $GITHUB_ENV
           # Read custom message which will be displayed in release notes
-          [ -a /workdir/openwrt/custom_release_notes.txt ] && echo "CUSTOM_RELEASE_NOTES=$(cat /workdir/openwrt/custom_release_notes.txt)" > $GITHUB_ENV
+          [ -a /workdir/openwrt/custom_release_notes.txt ] && echo "CUSTOM_RELEASE_NOTES=$(cat /workdir/openwrt/custom_release_notes.txt)" >> $GITHUB_ENV
 
       - name: Clear server space
         id: clean
