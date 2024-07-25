@@ -264,6 +264,7 @@ jobs:
 
       - name: Collect Data on Startup
         run: |
+          sudo timedatectl set-timezone "${TZ}"
           # sudo timedatectl set-timezone ${{ env.TZ }}
           printf "TIMESTAMP_ON_STARTUP=%(%s)T" >> $GITHUB_ENV
 
