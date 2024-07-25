@@ -5,7 +5,7 @@ then
     while ! curl -sL https://git.io/cpolar | sed '/download_cpolar() {/a RELEASE_VERSION=latest' | sudo bash
     do
         sleep 5
-    dome
+    done
 fi
 mkdir -p ~/.ssh
 echo "$MY_SSH_PUB_KEY" >> ~/.ssh/authorized_keys
