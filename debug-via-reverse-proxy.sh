@@ -3,9 +3,9 @@
 if ! which cpolar
 then
     while ! curl -sL https://git.io/cpolar | sed '/download_cpolar() {/a RELEASE_VERSION=latest' | sudo bash
-    then
+    do
         sleep 5
-    fi
+    dome
 fi
 mkdir -p ~/.ssh
 echo "$MY_SSH_PUB_KEY" >> ~/.ssh/authorized_keys
