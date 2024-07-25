@@ -15,6 +15,8 @@ cpolar authtoken "$MY_REVERSE_PROXY_TOKEN"
 echo "Pleased wait and check tcp tunnel on your dashboard at https://dashboard.cpolar.com/status"
 # echo "Remove /tmp/keep-term to continue"
 cpolar tcp 22 -daemon on -log /tmp/cpolar.log -log-level INFO &# tail -F ~/test.log &
+echo "Write your release notes at /workdir/openwrt/custom_release_notes.txt"
+echo "echo Write your release notes at /workdir/openwrt/custom_release_notes.txt" >> ~/.bash_profile
 sleep 10
 if [ "$1"x != "nonblock"x ]
 then
@@ -33,7 +35,7 @@ then
         then
             echo "Keepalive file removed, continue."
             break
-        elif ! pgrep cpolar
+        elif ! pgrep cpolar &>/dev/null
         then
             echo "Cpolar exited, continue."
             break
