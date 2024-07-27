@@ -13,6 +13,7 @@
 6. 修复luci-app-amlogic未安装
 7. 可修改Boot和系统分区容量大小，扩容以防后续安装插件空间不足
 8. 生成编译生成的所有ipk包到`all_ipks.tar.gz`，生成编译目录文件树到`filetree.txt`
+9. 默认IP: 192.168.3.3
 
 注意事项:
 
